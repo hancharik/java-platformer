@@ -17,6 +17,8 @@ public class Player {
 	
 	private boolean left;
 	private boolean right;
+        private boolean up;
+	private boolean down;
 	private boolean jumping;
 	private boolean falling;
 	
@@ -37,6 +39,8 @@ public class Player {
 	private Animation animation;
 	private BufferedImage[] idleSprites;
 	private BufferedImage[] walkingSprites;
+        private BufferedImage[] walkingUpSprites;
+        private BufferedImage[] walkingDownSprites;
 	private BufferedImage[] jumpingSprites;
 	private BufferedImage[] fallingSprites;
 	private boolean facingLeft;
@@ -45,36 +49,67 @@ public class Player {
 		
 		tileMap = tm;
 		
-		width = 22;
-		height = 22;
+		width = 64;
+		height = 64;
 		
 		moveSpeed = 0.6;
 		maxSpeed = 4.2;
 		maxFallingSpeed = 12;
 		stopSpeed = 0.30;
 		jumpStart = -11.0;
-		gravity = 0.64;
+		gravity = 0.0;
 		
 		try {
 			
 			idleSprites = new BufferedImage[1];
 			jumpingSprites = new BufferedImage[1];
 			fallingSprites = new BufferedImage[1];
-			walkingSprites = new BufferedImage[6];
+			walkingSprites = new BufferedImage[9];
+                        walkingUpSprites = new BufferedImage[9];
+                        walkingDownSprites = new BufferedImage[9];
 			
-			idleSprites[0] = ImageIO.read(new File("images/kirbyidle.gif"));
+			//idleSprites[0] = ImageIO.read(new File("images/kirbyidle.gif"));
 			jumpingSprites[0] = ImageIO.read(new File("images/kirbyjump.gif"));
 			fallingSprites[0] = ImageIO.read(new File("images/kirbyfall.gif"));
 			
-			BufferedImage image = ImageIO.read(new File("images/kirbywalk.gif"));
+			BufferedImage image = ImageIO.read(new File("images/sprite1.png"));
+                        idleSprites[0] = image.getSubimage(
+					0,
+					64*9,
+					width,
+					height
+				);
 			for(int i = 0; i < walkingSprites.length; i++) {
 				walkingSprites[i] = image.getSubimage(
 					i * width + i,
-					0,
+					64*9,
 					width,
 					height
 				);
 			}
+                        for(int i = 0; i < walkingUpSprites.length; i++) {
+				walkingUpSprites[i] = image.getSubimage(
+					i * width + i,
+					64*8,//64*8,
+					width,
+					height
+				);
+			}
+                         for(int i = 0; i < walkingDownSprites.length; i++) {
+				walkingDownSprites[i] = image.getSubimage(
+					i * width + i,
+					64*10,//64*10,
+					width,
+					height
+				);
+			}
+                        
+                        
+                        
+                        
+                        
+                        
+                        
 			
 		}
 		catch(Exception e) {
@@ -91,6 +126,11 @@ public class Player {
 	
 	public void setLeft(boolean b) { left = b; }
 	public void setRight(boolean b) { right = b; }
+        
+	public void setUp(boolean b) { up = b; }
+	public void setDown(boolean b) { down = b; }
+        
+        
 	public void setJumping(boolean b) {
 		if(!falling) {
 			jumping = true;
@@ -140,6 +180,34 @@ public class Player {
 			}
 		}
 		
+                
+                if(up) {
+			dy -= moveSpeed;
+			if(dy < -maxSpeed) {
+				dy = -maxSpeed;
+			}
+		}
+		else if(down) {
+			dy += moveSpeed;
+			if(dy > maxSpeed) {
+				dy = maxSpeed;
+			}
+		}
+		else {
+			if(dy > 0) {
+				dy -= stopSpeed;
+				if(dy < 0) {
+					dy = 0;
+				}
+			}
+			else if(dy < 0) {
+				dy += stopSpeed;
+				if(dy > 0) {
+					dy = 0;
+				}
+			}
+		}
+                
 		if(jumping) {
 			dy = jumpStart;
 			falling = true;
@@ -231,6 +299,17 @@ public class Player {
 			animation.setFrames(idleSprites);
 			animation.setDelay(-1);
 		}
+                
+                if(up) {
+			animation.setFrames(walkingUpSprites);
+			animation.setDelay(100);
+		}
+		if(down) {
+			animation.setFrames(walkingDownSprites);
+			animation.setDelay(100);
+		}
+                
+                /*
 		if(dy < 0) {
 			animation.setFrames(jumpingSprites);
 			animation.setDelay(-1);
@@ -239,6 +318,8 @@ public class Player {
 			animation.setFrames(fallingSprites);
 			animation.setDelay(-1);
 		}
+                
+                */
 		animation.update();
 		
 		if(dx < 0) {

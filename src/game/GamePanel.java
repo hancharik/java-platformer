@@ -6,8 +6,8 @@ import java.awt.event.*;
 
 public class GamePanel extends JPanel implements Runnable, KeyListener {
 	
-	public static final int WIDTH = 400;
-	public static final int HEIGHT = 400;
+	public static final int WIDTH = 1200;
+	public static final int HEIGHT = 800;
 	
 	private Thread thread;
 	private boolean running;
@@ -73,12 +73,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 		g = (Graphics2D) image.getGraphics();
 		
-		tileMap = new TileMap("maps/testmap2.txt", 32);
+		tileMap = new TileMap("maps/testmap3.txt", 64);
 		tileMap.loadTiles("images/tileset.gif");
 		
 		player = new Player(tileMap);
-		player.setx(50);
-		player.sety(50);
+		player.setx(150);
+		player.sety(150);
 		
 	}
 	
@@ -118,6 +118,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		if(code == KeyEvent.VK_RIGHT) {
 			player.setRight(true);
 		}
+                if(code == KeyEvent.VK_UP) {
+			player.setUp(true);
+		}
+		if(code == KeyEvent.VK_DOWN) {
+			player.setDown(true);
+		}
 		if(code == KeyEvent.VK_W) {
 			player.setJumping(true);
 		}
@@ -132,6 +138,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		}
 		if(code == KeyEvent.VK_RIGHT) {
 			player.setRight(false);
+		}
+                 if(code == KeyEvent.VK_UP) {
+			player.setUp(false);
+		}
+		if(code == KeyEvent.VK_DOWN) {
+			player.setDown(false);
 		}
 		
 	}
