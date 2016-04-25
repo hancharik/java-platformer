@@ -1,4 +1,4 @@
-package game;
+package ground;
 
 import java.awt.*;
 import java.awt.image.*;
@@ -49,7 +49,7 @@ public class Player {
 		
 		tileMap = tm;
 		
-		width = 64;
+		width = 63;
 		height = 64;
 		
 		moveSpeed = 0.6;
@@ -64,7 +64,7 @@ public class Player {
 			idleSprites = new BufferedImage[1];
 			jumpingSprites = new BufferedImage[1];
 			fallingSprites = new BufferedImage[1];
-			walkingSprites = new BufferedImage[9];
+			walkingSprites = new BufferedImage[8];
                         walkingUpSprites = new BufferedImage[9];
                         walkingDownSprites = new BufferedImage[9];
 			

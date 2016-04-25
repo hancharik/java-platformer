@@ -1,4 +1,4 @@
-package game;
+package ground;
 
 import java.awt.image.*;
 

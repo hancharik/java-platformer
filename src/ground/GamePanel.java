@@ -1,4 +1,4 @@
-package game;
+package ground;
 import javax.swing.JPanel;
 import java.awt.*;
 import java.awt.image.*;

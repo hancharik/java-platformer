@@ -1,4 +1,4 @@
-package game;
+package ground;
 import javax.swing.JFrame;
 
 public class Game {
